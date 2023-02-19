@@ -1,0 +1,19 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: localhost
+
+development:
+  <<: *default
+  database: coin_development
+  host: db
+  username: root
+  password: password
+
+test:
+  <<: *default
+  database: coin_test
+  host: db
+  username: root
+  password: password
