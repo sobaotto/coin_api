@@ -29,3 +29,6 @@
 /config/master.key
 
 .env
+
+.rubocop_todo.yml
+.rubocop.yml
