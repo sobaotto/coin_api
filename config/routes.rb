@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  defaults format: :json do
+    get '/me', to: 'sessions#show'
+    post '/login', to: 'sessions#create'
+    delete '/logout', to: 'sessions#destroy'
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+    resources :users, only: %i[show create] do
+      member do
+        resource :balance, only: %i[show update]
+        post :transfer, to: 'balances#transfer'
+        get :history, to: 'balances#history'
+      end
+    end
+  end
 end
