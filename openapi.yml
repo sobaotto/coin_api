@@ -1,0 +1,257 @@
+openapi: '3.0.2'
+info:
+  title: coin_api
+  version: '1.0'
+servers:
+  - url: http://localhost:3000
+paths:
+  /login:
+    post:
+      summary: ログイン
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ログインパラメータ
+              type: object
+              properties:
+                email:
+                    type: string
+                    description: メールアドレス
+                    example: taro@hoge.com
+                password:
+                    type: string
+                    description: パスワード
+                    example: password
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ユーザー登録パラメータ
+                type: object
+                properties:
+                  id:
+                      type: integer
+                      description: ユーザーID
+                      example: 1
+                  name:
+                      type: string
+                      description: ユーザー名
+                      example: taro
+                  email:
+                      type: string
+                      description: メールアドレス
+                      example: taro@hoge.com
+  /logout:
+    delete:
+      summary: ログアウト
+      responses:
+        '200':
+          description: OK
+  /users:
+    post:
+      summary: ユーザー登録
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ユーザー登録パラメータ
+              type: object
+              properties:
+                name:
+                    type: string
+                    description: ユーザー名
+                    example: taro
+                email:
+                    type: string
+                    description: メールアドレス
+                    example: taro@hoge.com
+                password:
+                    type: string
+                    description: パスワード
+                    example: password
+                password_confirmation:
+                    type: string
+                    description: パスワード確認用
+                    example: password
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ユーザー登録パラメータ
+                type: object
+                properties:
+                  id:
+                      type: integer
+                      description: ユーザーID
+                      example: 1
+                  name:
+                      type: string
+                      description: ユーザー名
+                      example: taro
+                  email:
+                      type: string
+                      description: メールアドレス
+                      example: taro@hoge.com
+  /users/{id}/balance:
+    get:
+      summary: 口座残高確認
+      parameters: 
+        - name: id
+          description: ユーザーID
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: メール送信対象一覧
+                type: object
+                properties:
+                  id:
+                      type: integer
+                      description: ユーザーID
+                      example: 1
+                  balance:
+                      type: integer
+                      description: 口座残高
+                      example: 1000
+    put:
+      summary: 入出金
+      parameters: 
+        - name: id
+          description: ユーザーID
+          in: path
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: 入出金パラメータ
+              type: object
+              properties:
+                amount:
+                    type: integer
+                    description: 取引額
+                    example: 100
+                type:
+                    type: string
+                    description: 取引種別
+                    example: deposit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: メール送信対象一覧
+                type: object
+                properties:
+                  id:
+                      type: integer
+                      description: ユーザーID
+                      example: 1
+                  balance:
+                      type: integer
+                      description: 口座残高
+                      example: 1000
+  /users/{id}/transfer:
+    post:
+      summary: 送金
+      parameters: 
+        - name: id
+          description: ユーザーID
+          in: path
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: 送金パラメータ
+              type: object
+              properties:
+                amount:
+                    type: integer
+                    description: 取引額
+                    example: 100
+                recipient_id:
+                    type: integer
+                    description: 送金先ユーザーID
+                    example: 2
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: メール送信対象一覧
+                type: object
+                properties:
+                  id:
+                      type: integer
+                      description: ユーザーID
+                      example: 1
+                  balance:
+                      type: integer
+                      description: 口座残高
+                      example: 1000
+  /users/{id}/history:
+    get:
+      summary: 取引履歴取得
+      parameters: 
+        - name: id
+          description: ユーザーID
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: メール送信対象一覧
+                type: object
+                properties:
+                  total_count:
+                      type: integer
+                      description: 取引履歴の総数
+                      example: 10
+                  id:
+                      type: integer
+                      description: ユーザーID
+                      example: 1
+                  balance:
+                      type: integer
+                      description: 口座残高
+                      example: 1000
+                  histories:
+                      type: array
+                      description: 取引履歴
+                      items:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            description: 取引種別
+                            example: deposit
+                          amount:
+                            type: integer
+                            description: 取引金額
+                            example: 1000
+                          created_at:
+                            type: integer
+                            description: 取引日時
