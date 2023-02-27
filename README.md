@@ -8,9 +8,9 @@ docker-compose run web rails db:create
 docker-compose run web rails db:migrate
 ```
 
-`http://localhost:3000/`でアクセス
+`http://localhost:3000/`にホストされます。
 
-> DBアクセス
+> 参考）DBアクセス
 ```
 docker-compose exec db mysql -u root -p coin_development
 ```
