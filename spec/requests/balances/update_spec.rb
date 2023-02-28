@@ -17,7 +17,7 @@ RSpec.describe 'PUT /users/:id/balance', type: :request do
         context '入金に関する場合' do
           let(:deposit_amount) { 100 }
           let!(:expected_balance) { user_a.balance + deposit_amount }
-          let(:params) { { type: Transaction.types[:deposit], amount: deposit_amount } }
+          let(:params) { { type: "deposit", amount: deposit_amount } }
 
           it '残高が加算され、200が返る' do
             put "#{user_path(user_a.id)}/balance", params: params
@@ -34,7 +34,7 @@ RSpec.describe 'PUT /users/:id/balance', type: :request do
           context '残高が足りる場合' do
             let(:withdraw_amount) { 100 }
             let!(:expected_balance) { user_a.balance - withdraw_amount }
-            let(:params) { { type: Transaction.types[:withdraw], amount: withdraw_amount } }
+            let(:params) { { type: "withdraw", amount: withdraw_amount } }
 
             it '残高が減算され、200が返る' do
               put "#{user_path(user_a.id)}/balance", params: params
@@ -49,7 +49,7 @@ RSpec.describe 'PUT /users/:id/balance', type: :request do
 
           context '残高不足の場合' do
             let(:withdraw_amount) { 1000 }
-            let(:params) { { type: Transaction.types[:withdraw], amount: withdraw_amount } }
+            let(:params) { { type: "withdraw", amount: withdraw_amount } }
 
             it '残高は更新できず、400が返される' do
               put "#{user_path(user_a.id)}/balance", params: params

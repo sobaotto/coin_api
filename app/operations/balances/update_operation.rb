@@ -10,7 +10,7 @@ module Balances
 
     def initialize(params:)
       @user = User.find_by!(id: params[:id])
-      @type = params[:type].to_i
+      @type = params[:type]
       @amount = params[:amount].to_i
     end
 
@@ -18,7 +18,7 @@ module Balances
       # 残高の更新と取引記録は両方確実に残す必要があるので、
       # どこかで処理が失敗したときはロールバックするようにした
       ActiveRecord::Base.transaction do
-        case @type
+        case Transaction.types[@type]
         when Transaction.types[:withdraw]
           @user.withdraw(amount: @amount)
         when Transaction.types[:deposit]
